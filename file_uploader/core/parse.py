@@ -1,9 +1,13 @@
-from logging import log
 import os
-from whitenoise import WhiteNoise
+from background_task import background
+from elasticsearch import Elasticsearch
+from core.models import File
+import textract
+
 import logging
 import logging.config
-from django.core.wsgi import get_wsgi_application
+
+es = Elasticsearch([os.environ["ELASTICSEARCH_HOST"]])
 
 
 logging_config = {
@@ -28,26 +32,19 @@ logging_config = {
             "handlers": ["console"],
             "propagate": False,
         },
-        "gunicorn.access": {
-            "level": os.getenv("LOG_LEVEL", "DEBUG"),
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "gunicorn.error": {
-            "level": os.getenv("LOG_LEVEL", "INFO"),
-            "handlers": ["console"],
-            "propagate": False,
-        },
     },
 }
 
 logging.config.dictConfig(logging_config)
-
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+logger = logging.getLogger("custom")
 PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-application = get_wsgi_application()
 
+@background(schedule=1)
+def parse_pdf(file_id):
 
-application = WhiteNoise(application, root=os.path.join(PROJ_DIR, "static"))
+    file_saved = File.objects.get(id=file_id)
+    text = textract.process(PROJ_DIR + file_saved.file_path).decode()
+    e1 = {"content": text, "file_id": file_id}
+
+    res = es.index(index="files", doc_type="content", body=e1)

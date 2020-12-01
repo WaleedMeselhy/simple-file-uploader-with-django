@@ -31,6 +31,7 @@ MEDIA_ROOT = os.path.join(PROJ_DIR, "media")
 
 INSTALLED_APPS = [
     "core",
+    "background_task",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

@@ -19,11 +19,11 @@ function elastic_ready() {
     fi
 }
 
-# until elastic_ready; do
-#     echo >&2 "Elastic is unavailable - sleeping"
-#     sleep 1
-# done
-# echo >&2 "Elastic is up - continuing..."
+until elastic_ready; do
+    echo >&2 "Elastic is unavailable - sleeping"
+    sleep 1
+done
+echo >&2 "Elastic is up - continuing..."
 
 function mysql_ready() {
 

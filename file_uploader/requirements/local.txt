@@ -4,3 +4,7 @@ sqlparse
 gunicorn
 mysqlclient
 whitenoise
+django-background-tasks
+elasticsearch
+logging_tree
+textract

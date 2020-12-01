@@ -3,8 +3,8 @@ from django.db import models
 
 class File(models.Model):
 
-    name = models.CharField(max_length=50)
-    file_path = models.CharField(max_length=200)
+    name = models.TextField(max_length=1000)
+    file_path = models.TextField(max_length=1000)
 
     class Meta:
         db_table = "file"

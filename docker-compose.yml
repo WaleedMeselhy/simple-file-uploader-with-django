@@ -13,9 +13,11 @@ services:
     env_file: dev.env
     build:
       context: file_uploader
-    # depends_on:
-    #   - mysql
-    #   - elasticsearch
+    volumes:
+      - ./media:/app/media
+    depends_on:
+      - mysql
+      - elasticsearch
     # command: -c 'while true; do echo "Hit CTRL+C"; sleep 1; done'
     # entrypoint: sh
     ports:
