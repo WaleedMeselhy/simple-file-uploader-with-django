@@ -22,6 +22,7 @@ RUN apk add --no-cache libxml2 libxslt
 RUN apk add --no-cache libjpeg
 COPY --from=builder /root/.local /usr/local
 COPY ./ /app
+RUN apk add --no-cache openjpeg tiff libxcb
 RUN chmod +x /app/entrypoint.sh
 RUN chmod +x /app/gunicorn.sh
 
