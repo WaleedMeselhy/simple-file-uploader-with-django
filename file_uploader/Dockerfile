@@ -19,7 +19,7 @@ RUN apk add --no-cache bash curl
 RUN apk add --no-cache mariadb-dev
 RUN apk add --no-cache mysql-client
 RUN apk add --no-cache libxml2 libxslt
-
+RUN apk add --no-cache libjpeg
 COPY --from=builder /root/.local /usr/local
 COPY ./ /app
 RUN chmod +x /app/entrypoint.sh

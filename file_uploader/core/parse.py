@@ -44,6 +44,7 @@ PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def parse_pdf(file_id):
 
     file_saved = File.objects.get(id=file_id)
+    
     text = textract.process(PROJ_DIR + file_saved.file_path).decode()
     e1 = {"content": text, "file_id": file_id}
 

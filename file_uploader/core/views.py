@@ -29,10 +29,8 @@ def index(request):
                 },
             )
             if results["hits"]["total"]["value"] > 0:
-                logger.info("find_documents")
                 files_ids = []
                 for result in results["hits"]["hits"]:
-                    logger.info(result)
                     files_ids.append(result["_source"]["file_id"])
 
                 files_from_content = list(File.objects.filter(id__in=files_ids))
