@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+  elasticsearch:
+    image: elasticsearch:7.9.3
+    environment:
+      - discovery.type=single-node
+    logging:
+      driver: none
+
+  file_uploader:
+    image: backend
+    env_file: dev.env
+    build:
+      context: file_uploader
+    # depends_on:
+    #   - mysql
+    #   - elasticsearch
+    # command: -c 'while true; do echo "Hit CTRL+C"; sleep 1; done'
+    # entrypoint: sh
+    ports:
+      - 0:8000:8000
+
+  mysql:
+    image: mysql:8.0.22
+    env_file: dev.env
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./mysql-init-files:/docker-entrypoint-initdb.d
+    ports:
+      - 0:3306:3306
+  #  celery_worker:
+  #    depends_on:
+  #      - rabbitmq
+  #      - backend
+  #    image: celery_worker
+  #    env_file: dev.env
+  #    build:
+  #     context: scrap_twitter_celery_worker

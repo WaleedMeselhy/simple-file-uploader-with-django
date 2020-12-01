@@ -1,0 +1,6 @@
+Django
+pytz
+sqlparse
+gunicorn
+mysqlclient
+whitenoise
